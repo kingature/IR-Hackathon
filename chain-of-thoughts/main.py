@@ -19,14 +19,20 @@ TIREX_DATASETS = [
 ]
 
 
-def main():
+# srun --pty --gres=gpu:1 -c 8 --mem=64G -t 8:00:00 bash
+def run(dset_list=None):
+
+    # If datasets are not specified, use all datasets
+    if dset_list is None:
+        dset_list = TIREX_DATASETS
+
     flan = FlanUL2Wrapper(10, 200, 0.5)
 
-    for dset_name in TIREX_DATASETS:
+    for dset_name in dset_list:
         dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
         json_res = flan.chain_of_thoughts(list(dataset.queries_iter()))
-        save_queries_cot("flan-ul2", dset_name, list(dataset.queries_iter()), json_res)
+        save_queries("flan-ul2", dset_name, list(dataset.queries_iter()), json_res)
 
 
 if __name__ == '__main__':
-    main()
+    run()

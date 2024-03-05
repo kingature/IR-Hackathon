@@ -2,7 +2,7 @@ import json
 import os
 
 
-def save_queries_cot(model_name, dset_name, queries, responses):
+def save_queries(model_name, dset_name, queries, responses):
     results = []
     for query, response in zip(queries, responses):
         elem = {
