@@ -2,13 +2,14 @@
 
 import json
 import math
-from tira.third_party_integrations import ir_datasets
+
 from torch import bfloat16
-from tqdm import tqdm
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer
 
+from layout import Layout
 
-class Llama2Wrapper:
+
+class Llama2Wrapper(Layout):
     def __init__(self, min_len, max_len, temperature, modelpath="../models/llama2-7b-chat-pytorch", **kwargs):
         self.min_len = min_len
         self.max_len = max_len
@@ -41,14 +42,6 @@ class Llama2Wrapper:
         print("\nResponse: " + output)
         return output
 
-    def chain_of_thoughts(self, queries):
-        responses = []
-        for idx, q in enumerate(queries):
-            print("\n[" + " " * (math.ceil(math.log10(len(queries)) - 1) - math.floor(math.log10(idx + 1))) + str(idx+1) + "/" + str(len(queries)) + "]", end=" ")
-            output = self.process_query(q.text, prompttype="cot")
-            responses.append(output)
-        return responses
-
     def extract_keywords(self):
         with open("msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl", "r") as f:
             responses = [json.loads(line)["response"] for line in f.readlines()]
@@ -72,3 +65,17 @@ class Llama2Wrapper:
             output = self.model.generate(**input, max_new_tokens=200, pad_token_id=self.tokenizer.eos_token_id, do_sample=True, temperature=1.1, num_return_sequences=1)
             output = self.tokenizer.decode(output[0][num_input_tokens:], skip_special_tokens=True).strip()
             print("\nQuery: " + q.text + "\nResponse: " + output)
+
+    def chain_of_thoughts(self, queries):
+        responses = []
+        for idx, q in enumerate(queries):
+            print("\n[" + " " * (math.ceil(math.log10(len(queries)) - 1) - math.floor(math.log10(idx + 1))) + str(idx+1) + "/" + str(len(queries)) + "]", end=" ")
+            output = self.process_query(q.text, prompttype="cot")
+            responses.append(output)
+        return responses
+
+    def similar_queries_fs(self, queries):
+        return super().similar_queries_fs(queries)
+
+    def similar_queries_zs(self, queries):
+        return super().similar_queries_zs(queries)
