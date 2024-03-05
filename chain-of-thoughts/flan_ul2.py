@@ -1,4 +1,5 @@
 from transformers import T5ForConditionalGeneration, AutoTokenizer
+import torch
 
 
 class FlanUL2Wrapper:
@@ -12,10 +13,15 @@ class FlanUL2Wrapper:
         self.tokenizer = AutoTokenizer.from_pretrained("google/flan-ul2")
 
     def process_queries(self, prompts):
-        inputs = self.tokenizer(prompts, return_tensors="pt", padding=True, truncation=True).input_ids.to("cuda")
-        output = self.model.generate(inputs, do_sample=True, min_length=self.min_len, max_length=self.max_len,
-                                     temperature=self.temperature)
-        return [elem for elem in self.tokenizer.batch_decode(output, skip_special_tokens=True)]
+        result = []
+        batches = torch.utils.data.DataLoader(prompts, batch_size=5)
+
+        for batch in batches:
+            inputs = self.tokenizer(batch, return_tensors="pt", padding=True, truncation=True).input_ids.to("cuda")
+            output = self.model.generate(inputs, do_sample=True, min_length=self.min_len, max_length=self.max_len,
+                                         temperature=self.temperature)
+            result.extend([elem for elem in self.tokenizer.batch_decode(output, skip_special_tokens=True)])
+        return result
 
     def chain_of_thoughts(self, queries):
         def add_context(query):

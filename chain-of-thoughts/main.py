@@ -1,6 +1,10 @@
-from tira.third_party_integrations import ir_datasets
+#!/usr/bin/env python
+
 from flan_ul2 import FlanUL2Wrapper
+from llama import Llama2Wrapper
+import ir_datasets
 from utility import *
+from evaluation import do_evaluation
 
 TIREX_DATASETS = [
     'antique-test-20230107-training', 'argsme-touche-2021-task-1-20230209-training', 'argsme-touche-2020-task-1-20230209-training',
@@ -20,19 +24,26 @@ TIREX_DATASETS = [
 
 
 # srun --pty --gres=gpu:1 -c 8 --mem=64G -t 8:00:00 bash
-def run(dset_list=None):
-
-    # If datasets are not specified, use all datasets
-    if dset_list is None:
-        dset_list = TIREX_DATASETS
-
+def query_expansion(dset_list=None):
     flan = FlanUL2Wrapper(10, 200, 0.5)
+    llama = Llama2Wrapper(10, 200, 1.1)
 
     for dset_name in dset_list:
         dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-        json_res = flan.chain_of_thoughts(list(dataset.queries_iter()))
-        save_queries("flan-ul2", dset_name, list(dataset.queries_iter()), json_res)
+
+        outputs = flan.chain_of_thoughts(list(dataset.queries_iter()))
+        save_queries("flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
+
+        outputs = llama.chain_of_thoughts(list(dataset.queries_iter()))
+        save_queries("llama", dset_name, list(dataset.queries_iter()), outputs)
 
 
 if __name__ == '__main__':
-    run()
+    dset_list = ['msmarco-passage-trec-dl-2019-judged-20230107-training']
+
+    if len(dset_list) == 0:
+        dset_list = TIREX_DATASETS
+
+    query_expansion(dset_list=dset_list)
+    # do_evaluation('flan-ul2', dset_list)
+    # do_evaluation('llama', dset_list)
