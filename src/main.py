@@ -19,8 +19,9 @@ if __name__ == '__main__':
 
     dset_list = split_list(dset_list, ngpus)[batchnum-1]
     if len(dset_list) == 0:
-        print(f"Process {batchnum} has nothing to do, exiting...")
+        print(f"Process {batchnum}/{ngpus} has nothing to do, exiting...")
         exit()
+    print(f"Process {batchnum}/{ngpus} has datasets {dset_list}")
 
     flan_model = FlanUL2Wrapper(min_len=10, max_len=200, temperature=0.5, name="flan-ul2")
     llama_model = Llama2Wrapper(min_len=10, max_len=200, temperature=1.1, name="llama", modelpath="/beegfs/ws/1/s9037008-ir-hackaton-queries/models/llama2-7b-chat-pytorch")

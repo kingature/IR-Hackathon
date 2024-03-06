@@ -1,8 +1,8 @@
 from transformers import T5ForConditionalGeneration, AutoTokenizer
 import torch
 
-from layout import Layout
-from src.util.utility import save_query
+from models.layout import Layout
+from util.utility import save_query
 
 
 class FlanUL2Wrapper(Layout):

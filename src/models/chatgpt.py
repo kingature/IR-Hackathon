@@ -1,6 +1,6 @@
 from openai import OpenAI
-from src.models.layout import Layout
-from src.util.utility import save_query
+from models.layout import Layout
+from util.utility import save_query
 from tqdm import tqdm
 
 

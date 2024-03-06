@@ -7,8 +7,8 @@ from tqdm import tqdm
 from torch import bfloat16
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer
 
-from layout import Layout
-from src.util.utility import save_query
+from models.layout import Layout
+from util.utility import save_query
 
 
 class Llama2Wrapper(Layout):
@@ -58,7 +58,6 @@ class Llama2Wrapper(Layout):
                     f''
                     f'<s>[INST] Original query: {query} [/INST]'
                     f'Similar query:')
-
                 input = self.make_prompt(sysprompt, example)[:-8]
 
         input, num_input_tokens = self.tokenize_and_count(input)
@@ -74,11 +73,11 @@ class Llama2Wrapper(Layout):
         if show_output:
             for idx, q in enumerate(queries):
                 print("\n[" + " " * (math.ceil(math.log10(len(queries)) - 1) - math.floor(math.log10(idx + 1))) + str(idx+1) + "/" + str(len(queries)) + "]", end=" ")
-                output = self.process_query(q.text, prompttype=experiment, show_output=True)
+                output = self.process_query(q.text, prompttype=experiment, show_output=show_output)
                 save_query(exp_name=exp_name, model_name=self.name, dset_name=dset_name, query=q, response=output)
         else:
-            for q in tqdm(queries):
-                output = self.process_query(q.text, prompttype=experiment, show_output=False)
+            for q in queries:
+                output = self.process_query(q.text, prompttype=experiment, show_output=show_output)
                 save_query(exp_name=exp_name, model_name=self.name, dset_name=dset_name, query=q, response=output)
 
     def chain_of_thoughts(self, queries, dset_name):
