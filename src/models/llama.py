@@ -29,9 +29,6 @@ class Llama2Wrapper(Layout):
         return model_input, num_tokens
 
     def process_query(self, query, prompttype="zs", show_output=True):
-        if show_output:
-            print("Query: " + query)
-
         supported_prompttypes = ["zs", "cot"]
         if prompttype not in supported_prompttypes:
             print(f"Prompttype {prompttype} is unsupported! Please use one of {supported_prompttypes}.")
@@ -44,10 +41,13 @@ class Llama2Wrapper(Layout):
                 sysprompt = "Be short and concise, 100 words max. Answer in full sentences, while briefly writing down your steps towards the response."
                 input = self.make_prompt(sysprompt, query)
 
-        input, num_input_tokens = self.tokenize_and_count(query)
+        input, num_input_tokens = self.tokenize_and_count(input)
         output = self.model.generate(**input, max_new_tokens=self.max_len, pad_token_id=self.tokenizer.eos_token_id, do_sample=True, temperature=self.temperature, min_length=self.min_len)
         output = self.tokenizer.decode(output[0][num_input_tokens:], skip_special_tokens=True).strip()
-        print("\nResponse: " + output)
+
+        if show_output:
+            print("\nQuery: " + query + "\nResponse: " + output)
+
         return output
 
     def process_queries(self, queries, experiment="cot", show_output=True):
@@ -71,7 +71,7 @@ class Llama2Wrapper(Layout):
         return self.process_queries(queries, experiment="fs", show_output=False)
 
     def similar_queries_zs(self, queries):
-        return self.process_queries(queries, experiment="zs", show_output=False)
+        return self.process_queries(queries, experiment="zs", show_output=True)
 
     def extract_keywords(self):
         with open("msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl", "r") as f:

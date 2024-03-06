@@ -27,7 +27,8 @@ def split_list(lst, parts):
 
 if __name__ == '__main__':
     dset_list = [get_similar('marco')]
-    dset_list= ['msmarco-passage-trec-dl-2019-judged-20230107-training', 'msmarco-passage-trec-dl-2020-judged-20230107-training', 'longeval-long-september-20230513-training', 'longeval-short-july-20230513-training', 'longeval-train-20230513-training', 'longeval-heldout-20230513-training', 'antique-test-20230107-training', 'argsme-touche-2021-task-1-20230209-training', 'argsme-touche-2020-task-1-20230209-training']
+    dset_list = ['msmarco-passage-trec-dl-2019-judged-20230107-training', 'msmarco-passage-trec-dl-2020-judged-20230107-training', 'longeval-long-september-20230513-training', 'longeval-short-july-20230513-training', 'longeval-train-20230513-training', 'longeval-heldout-20230513-training', 'antique-test-20230107-training', 'argsme-touche-2021-task-1-20230209-training', 'argsme-touche-2020-task-1-20230209-training']
+    dset_list = [dset_list[3]]
 
     if len(dset_list) == 0:
         dset_list = get_all_datasets()
