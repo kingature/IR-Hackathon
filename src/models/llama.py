@@ -2,7 +2,6 @@
 
 import json
 import math
-from tqdm import tqdm
 
 from torch import bfloat16
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer

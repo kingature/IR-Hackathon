@@ -1,6 +1,5 @@
 import pyterrier as pt
 import pandas as pd
-import ir_datasets
 from tqdm import tqdm
 
 from tira.third_party_integrations import ensure_pyterrier_is_loaded
@@ -19,24 +18,6 @@ class Layout:
         self.dsets = dsets
         self.name = short_name
         self.exp_name = long_name
-
-    def run(self):
-        print("LLMs are working ...")
-        for dset_name in tqdm(self.dsets):
-            dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-            queries = list(dataset.queries_iter())
-
-            if self.flan is not None:
-                idx = get_idx_of_last_query(self.exp_name, self.flan.name, dset_name)
-                self.flan.chain_of_thoughts(queries[idx:], dset_name)
-
-            if self.llama is not None:
-                idx = get_idx_of_last_query(self.exp_name, self.llama.name, dset_name)
-                self.llama.chain_of_thoughts(queries[idx:], dset_name)
-
-            if self.gpt is not None:
-                idx = get_idx_of_last_query(self.exp_name, self.gpt.name, dset_name)
-                self.gpt.chain_of_thoughts(queries[idx:], dset_name)
 
     def eval_all(self):
         for model_name in [self.flan.name, self.llama.name, self.gpt.name]:
