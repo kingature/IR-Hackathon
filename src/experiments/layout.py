@@ -17,10 +17,24 @@ class Layout:
         self.dsets = dsets
         self.name = name
 
-    def run_all(self):
-        self.run_chain_of_thoughts()
-        self.run_similar_queries_fs()
-        self.run_similar_queries_zs()
+    def run(self):
+            for dset_name in self.dsets:
+                dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
+
+                if self.flan is not None:
+                    outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
+                    save_queries("similar-queries-zs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
+#                    save_queries(self.exp_name, self.flan.name, dset_name, list(dataset.queries_iter()), outputs)
+
+                if self.llama is not None:
+                    outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
+                    save_queries("similar-queries-zs", "llama", dset_name, list(dataset.queries_iter()), outputs)
+#                    save_queries(self.exp_name, self.llama.name, dset_name, list(dataset.queries_iter()), outputs)
+
+                if self.gpt is not None:
+                    outputs = self.gpt.chain_of_thoughts(list(dataset.queries_iter()))
+                    save_queries("similar-queries-zs", "gpt", dset_name, list(dataset.queries_iter()), outputs)
+#                    save_queries(self.exp_name, self.gpt.name, dset_name, list(dataset.queries_iter()), outputs)
 
     def run_chain_of_thoughts(self):
         for dset_name in self.dsets:
