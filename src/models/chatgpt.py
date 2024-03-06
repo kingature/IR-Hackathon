@@ -1,28 +1,28 @@
-from transformers import T5ForConditionalGeneration, AutoTokenizer
-import torch
-
+from openai import OpenAI
 from src.models.layout import Layout
 
 
-class FlanUL2Wrapper(Layout):
-    def __init__(self, min_len, max_len, temperature, name):
+class ChatGPTWrapper(Layout):
+
+    def __init__(self, max_len, temperature, name):
+        # TODO Remove API KEY
         super().__init__(name)
-        self.min_len = min_len
+        self.client = OpenAI(api_key='...')
         self.max_len = max_len
         self.temperature = temperature
 
-        self.model = T5ForConditionalGeneration.from_pretrained("google/flan-ul2", device_map="auto", load_in_8bit=True)
-        self.tokenizer = AutoTokenizer.from_pretrained("google/flan-ul2")
-
     def process_queries(self, prompts):
         result = []
-        batches = torch.utils.data.DataLoader(prompts, batch_size=5)
-
-        for batch in batches:
-            inputs = self.tokenizer(batch, return_tensors="pt", padding=True, truncation=True).input_ids.to("cuda")
-            output = self.model.generate(inputs, do_sample=True, min_length=self.min_len, max_length=self.max_len,
-                                         temperature=self.temperature)
-            result.extend([elem for elem in self.tokenizer.batch_decode(output, skip_special_tokens=True)])
+        for prompt in prompts:
+            response = self.client.chat.completions.create(
+                model='gpt-3.5-turbo',
+                messages=[
+                    {"role": "system", "content": f"{prompt}"},
+                ],
+                max_tokens=self.max_len,
+                temperature=self.temperature
+            )
+            result.append(response.choices[0].message.content)
         return result
 
     def chain_of_thoughts(self, queries):

@@ -11,56 +11,37 @@ ensure_pyterrier_is_loaded()
 
 
 class Layout:
-    def __init__(self, name, dsets, flan, llama):
+    def __init__(self, long_name, short_name, dsets, flan, llama, gpt):
         self.flan = flan
         self.llama = llama
+        self.gpt = gpt
         self.dsets = dsets
-        self.name = name
+        self.name = short_name
+        self.exp_name = long_name
 
-    def run_all(self):
-        self.run_chain_of_thoughts()
-        self.run_similar_queries_fs()
-        self.run_similar_queries_zs()
-
-    def run_chain_of_thoughts(self):
+    def run(self):
         for dset_name in self.dsets:
             dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
 
-            outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
-            save_queries("chain-of-thoughts", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
+            if self.flan is not None:
+                outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
+                save_queries(self.exp_name, self.flan.name, dset_name, list(dataset.queries_iter()), outputs)
 
-            outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
-            save_queries("chain-of-thoughts", "llama", dset_name, list(dataset.queries_iter()), outputs)
+            if self.llama is not None:
+                outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
+                save_queries(self.exp_name, self.llama.name, dset_name, list(dataset.queries_iter()), outputs)
 
-    def run_similar_queries_fs(self):
-        for dset_name in self.dsets:
-            dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-
-            outputs = self.flan.similar_queries_fs(list(dataset.queries_iter()))
-            save_queries("similar-queries-fs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
-
-            outputs = self.llama.similar_queries_fs(list(dataset.queries_iter()))
-            save_queries("similar-queries-fs", "llama", dset_name, list(dataset.queries_iter()), outputs)
-
-    def run_similar_queries_zs(self):
-        for dset_name in self.dsets:
-            dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-
-            outputs = self.flan.similar_queries_zs(list(dataset.queries_iter()))
-            save_queries("similar-queries-zs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
-
-            outputs = self.llama.similar_queries_zs(list(dataset.queries_iter()))
-            save_queries("similar-queries-zs", "llama", dset_name, list(dataset.queries_iter()), outputs)
+            if self.gpt is not None:
+                outputs = self.gpt.chain_of_thoughts(list(dataset.queries_iter()))
+                save_queries(self.exp_name, self.gpt.name, dset_name, list(dataset.queries_iter()), outputs)
 
     def eval_all(self):
-        for exp_name in ['chain-of-thoughts', 'similar-queries-fs', 'similar-queries-zs']:
-            for model_name in ['flan-ul2', 'llama']:
-                self.do_evaluation(exp_name, model_name)
+        for model_name in [self.flan.name, self.llama.name, self.gpt.name]:
+            self.do_evaluation(self.exp_name, model_name)
 
-    def eval(self, exp_names, model_names):
-        for exp_name in exp_names:
-            for model_name in model_names:
-                self.do_evaluation(exp_name, model_name)
+    def eval(self, model_names):
+        for model_name in model_names:
+            self.do_evaluation(self.exp_name, model_name)
 
     def do_evaluation(self, exp_name, model_name):
         eval_dfs = []
@@ -82,7 +63,12 @@ class Layout:
             eval_dfs.append(df)
 
         eval_df = pd.concat(eval_dfs)
-        eval_df.to_json(f'chain-of-thoughts/generated/eval-{model_name}.jsonl', lines=True, orient='records')
+
+        path = f'generated/{exp_name}/evaluation'
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        eval_df.to_json(f'{path}/eval-{model_name}.jsonl', lines=True, orient='records')
 
     @staticmethod
     def concat(query, reps, llm_output):

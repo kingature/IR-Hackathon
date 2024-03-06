@@ -7,11 +7,12 @@ import tqdm
 from torch import bfloat16
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer
 
-from layout import Layout
+from src.models.layout import Layout
 
 
 class Llama2Wrapper(Layout):
-    def __init__(self, min_len, max_len, temperature, modelpath="../models/llama2-7b-chat-pytorch", **kwargs):
+    def __init__(self, min_len, max_len, temperature, name, modelpath="../models/llama2-7b-chat-pytorch", **kwargs):
+        super().__init__(name)
         self.min_len = min_len
         self.max_len = max_len
         self.temperature = temperature
@@ -50,7 +51,7 @@ class Llama2Wrapper(Layout):
         print("\nResponse: " + output)
         return output
 
-    def process_queries(self, queries, experiment="cot", show_output=True)
+    def process_queries(self, queries, experiment="cot", show_output=True):
         responses = []
         if show_output:
             for idx, q in enumerate(queries):
