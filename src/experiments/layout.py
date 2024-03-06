@@ -1,6 +1,7 @@
 import pyterrier as pt
 import pandas as pd
 import ir_datasets
+from tqdm import tqdm
 
 from tira.third_party_integrations import ensure_pyterrier_is_loaded
 from tira.rest_api_client import Client
@@ -20,20 +21,22 @@ class Layout:
         self.exp_name = long_name
 
     def run(self):
-        for dset_name in self.dsets:
+        print("LLMs are working ...")
+        for dset_name in tqdm(self.dsets):
             dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
+            queries = list(dataset.queries_iter())
 
             if self.flan is not None:
-                outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
-                save_queries(self.exp_name, self.flan.name, dset_name, list(dataset.queries_iter()), outputs)
+                idx = get_idx_of_last_query(self.exp_name, self.flan.name, dset_name)
+                self.flan.chain_of_thoughts(queries[idx:], dset_name)
 
             if self.llama is not None:
-                outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
-                save_queries(self.exp_name, self.llama.name, dset_name, list(dataset.queries_iter()), outputs)
+                idx = get_idx_of_last_query(self.exp_name, self.llama.name, dset_name)
+                self.llama.chain_of_thoughts(queries[idx:], dset_name)
 
             if self.gpt is not None:
-                outputs = self.gpt.chain_of_thoughts(list(dataset.queries_iter()))
-                save_queries(self.exp_name, self.gpt.name, dset_name, list(dataset.queries_iter()), outputs)
+                idx = get_idx_of_last_query(self.exp_name, self.gpt.name, dset_name)
+                self.gpt.chain_of_thoughts(queries[idx:], dset_name)
 
     def eval_all(self):
         for model_name in [self.flan.name, self.llama.name, self.gpt.name]:
@@ -41,11 +44,12 @@ class Layout:
 
     def eval(self, model_names):
         for model_name in model_names:
+            print(f"Evaluating model {model_name} ...")
             self.do_evaluation(self.exp_name, model_name)
 
     def do_evaluation(self, exp_name, model_name):
         eval_dfs = []
-        for dset_name in self.dsets:
+        for dset_name in tqdm(self.dsets):
             expanded_queries = Layout.get_as_dict(exp_name, model_name, dset_name)
             pt_dataset = pt.get_dataset(f"irds:ir-benchmarks/{dset_name}")
 

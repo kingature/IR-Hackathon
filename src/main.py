@@ -4,10 +4,10 @@ from src.experiments.experiments import ChainOfThoughts, SimilarQueriesFS, Simil
 from src.models.chatgpt import ChatGPTWrapper
 from src.models.flan_ul2 import FlanUL2Wrapper
 from src.models.llama import Llama2Wrapper
-from src.util.utility import get_all_datasets, get_similar
+from src.util.utility import get_all_datasets, get_similar, get_by_priority
 
 if __name__ == '__main__':
-    dset_list = [get_similar('marco')]
+    dset_list = get_by_priority(0)
 
     if len(dset_list) == 0:
         dset_list = get_all_datasets()

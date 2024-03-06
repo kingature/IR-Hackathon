@@ -2,12 +2,13 @@
 
 import json
 import math
-import tqdm
+from tqdm import tqdm
 
 from torch import bfloat16
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer
 
 from src.models.layout import Layout
+from src.util.utility import save_query
 
 
 class Llama2Wrapper(Layout):
@@ -51,28 +52,25 @@ class Llama2Wrapper(Layout):
         print("\nResponse: " + output)
         return output
 
-    def process_queries(self, queries, experiment="cot", show_output=True):
-        responses = []
+    def process_queries(self, queries, exp_name, dset_name, experiment="cot", show_output=True):
         if show_output:
             for idx, q in enumerate(queries):
                 print("\n[" + " " * (math.ceil(math.log10(len(queries)) - 1) - math.floor(math.log10(idx + 1))) + str(idx+1) + "/" + str(len(queries)) + "]", end=" ")
                 output = self.process_query(q.text, prompttype=experiment, show_output=True)
-                responses.append(output)
+                save_query(exp_name=exp_name, model_name=self.name, dset_name=dset_name, response=output)
         else:
             for q in tqdm.tqdm(queries):
                 output = self.process_query(q.text, prompttype=experiment, show_output=False)
-                responses.append(output)
+                save_query(exp_name=exp_name, model_name=self.name, dset_name=dset_name, response=output)
 
-        return responses
+    def chain_of_thoughts(self, queries, dset_name):
+        self.process_queries(queries, exp_name="chain-of-thoughts", dset_name=dset_name, experiment="cot", show_output=False)
 
-    def chain_of_thoughts(self, queries):
-        return self.process_queries(queries, experiment="cot", show_output=False)
+    def similar_queries_fs(self, queries, dset_name):
+        self.process_queries(queries, exp_name="similar-queries-fs", dset_name=dset_name, experiment="fs", show_output=False)
 
-    def similar_queries_fs(self, queries):
-        return self.process_queries(queries, experiment="fs", show_output=False)
-
-    def similar_queries_zs(self, queries):
-        return self.process_queries(queries, experiment="zs", show_output=False)
+    def similar_queries_zs(self, queries, dset_name):
+        self.process_queries(queries, exp_name="similar-queries-zs", dset_name=dset_name, experiment="zs", show_output=False)
 
     def extract_keywords(self):
         with open("msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl", "r") as f:

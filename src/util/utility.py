@@ -3,27 +3,33 @@ import os
 import json
 
 
-def save_queries(exp_name, model_name, dset_name, queries, responses):
+def save_query(exp_name, model_name, dset_name, query, response):
     path = f'generated/{exp_name}/{model_name}'
 
     if not os.path.exists(path):
         os.makedirs(path)
 
-    with jsonlines.open(f'{path}/{dset_name}.jsonl', mode='w') as writer:
-        for query, response in zip(queries, responses):
-            elem = {
-                "query-id": query.query_id,
-                "query-text": query.default_text(),
-                "response": response,
-                "metadata": {"model": model_name}
-            }
-            writer.write(elem)
+    with jsonlines.open(f'{path}/{dset_name}.jsonl', mode='a') as writer:
+        elem = {
+            "query-id": query.query_id,
+            "query-text": query.default_text(),
+            "response": response,
+            "metadata": {"model": model_name}
+        }
+        writer.write(elem)
+
+
+def get_idx_of_last_query(exp_name, model_name, dset_name):
+    return len(read_queries(exp_name, model_name, dset_name))
 
 
 def read_queries(exp_name, model_name, dset_name):
     path = f'generated/{exp_name}/{model_name}/{dset_name}.jsonl'
-    with open(path) as file:
-        data = [line.rstrip() for line in file]
+    try:
+        with open(path) as file:
+            data = [line.rstrip() for line in file]
+    except FileNotFoundError:
+        return []
 
     return [json.loads(entry) for entry in data]
 

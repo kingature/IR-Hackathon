@@ -7,13 +7,13 @@ class Layout(ABC):
         self.name = name
 
     @abstractmethod
-    def chain_of_thoughts(self, queries):
+    def chain_of_thoughts(self, queries, dset_name):
         return []
 
     @abstractmethod
-    def similar_queries_fs(self, queries):
+    def similar_queries_fs(self, queries, dset_name):
         return []
 
     @abstractmethod
-    def similar_queries_zs(self, queries):
+    def similar_queries_zs(self, queries, dset_name):
         return []
