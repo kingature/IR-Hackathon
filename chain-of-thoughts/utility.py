@@ -21,7 +21,7 @@ def save_queries(model_name, dset_name, queries, responses):
 
 
 def read_queries(model_name, dset_name):
-    path = f'chain-of-thoughts/generated/{model_name}/{dset_name}.jsonl'
+    path = f'generated/{model_name}/{dset_name}.jsonl'
     with open(path) as file:
         data = [line.rstrip() for line in file]
 

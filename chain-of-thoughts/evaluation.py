@@ -54,4 +54,4 @@ def do_evaluation(model, dset_list):
         eval_dfs.append(df)
 
     eval_df = pd.concat(eval_dfs)
-    eval_df.to_json(f'chain-of-thoughts/generated/eval-{model}.jsonl', lines=True, orient='records')
+    eval_df.to_json(f'generated/eval-{model}.jsonl', lines=True, orient='records')
