@@ -37,15 +37,6 @@ class FlanUL2Wrapper(Layout):
 
     def similar_queries_fs(self, queries):
         def add_context(query):
-            return (f'Suggest 5 queries that are similar to the following query:'
-                    f''
-                    f'Query: {query}')
-
-        prompts = [add_context(query.default_text()) for query in queries]
-        return self.process_queries(prompts)
-
-    def similar_queries_zs(self, queries):
-        def add_context(query):
             return (f'Suggest 5 queries that are similar to the following query. Here are some examples first:'
                     f''
                     f'Original query: How to tie a windsor knot?'
@@ -56,6 +47,15 @@ class FlanUL2Wrapper(Layout):
                     f''
                     f'Original query: Simple vegan cooking recipes'
                     f'Similar query: What are some delicious and simple vegan cooking recipes?'
+                    f''
+                    f'Query: {query}')
+
+        prompts = [add_context(query.default_text()) for query in queries]
+        return self.process_queries(prompts)
+
+    def similar_queries_zs(self, queries):
+        def add_context(query):
+            return (f'Suggest 5 queries that are similar to the following query:'
                     f''
                     f'Query: {query}')
 
