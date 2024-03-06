@@ -4,7 +4,7 @@ import ir_datasets
 
 from tira.third_party_integrations import ensure_pyterrier_is_loaded
 from tira.rest_api_client import Client
-from src.util.utility import *
+from util.utility import *
 
 tira = Client()
 ensure_pyterrier_is_loaded()

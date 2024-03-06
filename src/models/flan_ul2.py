@@ -1,7 +1,7 @@
 from transformers import T5ForConditionalGeneration, AutoTokenizer
 import torch
 
-from layout import Layout
+from .layout import Layout
 
 
 class FlanUL2Wrapper(Layout):
@@ -11,6 +11,7 @@ class FlanUL2Wrapper(Layout):
         self.temperature = temperature
 
         self.model = T5ForConditionalGeneration.from_pretrained("google/flan-ul2", device_map="auto", load_in_8bit=True)
+#        self.model = T5ForConditionalGeneration.from_pretrained("/beegfs/ws/1/s9037008-ir-hackaton-queries/models/flan-ul2", device_map="auto", load_in_8bit=True)
         self.tokenizer = AutoTokenizer.from_pretrained("google/flan-ul2")
 
     def process_queries(self, prompts):

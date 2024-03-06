@@ -7,7 +7,7 @@ import tqdm
 from torch import bfloat16
 from transformers import LlamaForCausalLM, LlamaTokenizerFast, TextStreamer
 
-from layout import Layout
+from .layout import Layout
 
 
 class Llama2Wrapper(Layout):
@@ -50,7 +50,7 @@ class Llama2Wrapper(Layout):
         print("\nResponse: " + output)
         return output
 
-    def process_queries(self, queries, experiment="cot", show_output=True)
+    def process_queries(self, queries, experiment="cot", show_output=True):
         responses = []
         if show_output:
             for idx, q in enumerate(queries):
