@@ -1,84 +1,55 @@
 import pyterrier as pt
 import pandas as pd
 import ir_datasets
+from tqdm import tqdm
 
 from tira.third_party_integrations import ensure_pyterrier_is_loaded
 from tira.rest_api_client import Client
-from util.utility import *
+from src.util.utility import *
 
 tira = Client()
 ensure_pyterrier_is_loaded()
 
 
 class Layout:
-    def __init__(self, name, dsets, flan, llama):
+    def __init__(self, long_name, short_name, dsets, flan, llama, gpt):
         self.flan = flan
         self.llama = llama
+        self.gpt = gpt
         self.dsets = dsets
-        self.name = name
+        self.name = short_name
+        self.exp_name = long_name
 
     def run(self):
-            for dset_name in self.dsets:
-                dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-
-                if self.flan is not None:
-                    outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
-                    save_queries("similar-queries-zs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
-#                    save_queries(self.exp_name, self.flan.name, dset_name, list(dataset.queries_iter()), outputs)
-
-                if self.llama is not None:
-                    outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
-                    save_queries("similar-queries-zs", "llama", dset_name, list(dataset.queries_iter()), outputs)
-#                    save_queries(self.exp_name, self.llama.name, dset_name, list(dataset.queries_iter()), outputs)
-
-                if self.gpt is not None:
-                    outputs = self.gpt.chain_of_thoughts(list(dataset.queries_iter()))
-                    save_queries("similar-queries-zs", "gpt", dset_name, list(dataset.queries_iter()), outputs)
-#                    save_queries(self.exp_name, self.gpt.name, dset_name, list(dataset.queries_iter()), outputs)
-
-    def run_chain_of_thoughts(self):
-        for dset_name in self.dsets:
+        print("LLMs are working ...")
+        for dset_name in tqdm(self.dsets):
             dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
+            queries = list(dataset.queries_iter())
 
-            outputs = self.flan.chain_of_thoughts(list(dataset.queries_iter()))
-            save_queries("chain-of-thoughts", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
+            if self.flan is not None:
+                idx = get_idx_of_last_query(self.exp_name, self.flan.name, dset_name)
+                self.flan.chain_of_thoughts(queries[idx:], dset_name)
 
-            outputs = self.llama.chain_of_thoughts(list(dataset.queries_iter()))
-            save_queries("chain-of-thoughts", "llama", dset_name, list(dataset.queries_iter()), outputs)
+            if self.llama is not None:
+                idx = get_idx_of_last_query(self.exp_name, self.llama.name, dset_name)
+                self.llama.chain_of_thoughts(queries[idx:], dset_name)
 
-    def run_similar_queries_fs(self):
-        for dset_name in self.dsets:
-            dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-
-            outputs = self.flan.similar_queries_fs(list(dataset.queries_iter()))
-            save_queries("similar-queries-fs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
-
-            outputs = self.llama.similar_queries_fs(list(dataset.queries_iter()))
-            save_queries("similar-queries-fs", "llama", dset_name, list(dataset.queries_iter()), outputs)
-
-    def run_similar_queries_zs(self):
-        for dset_name in self.dsets:
-            dataset = ir_datasets.load(f'ir-benchmarks/{dset_name}')
-
-            outputs = self.flan.similar_queries_zs(list(dataset.queries_iter()))
-            save_queries("similar-queries-zs", "flan-ul2", dset_name, list(dataset.queries_iter()), outputs)
-
-            outputs = self.llama.similar_queries_zs(list(dataset.queries_iter()))
-            save_queries("similar-queries-zs", "llama", dset_name, list(dataset.queries_iter()), outputs)
+            if self.gpt is not None:
+                idx = get_idx_of_last_query(self.exp_name, self.gpt.name, dset_name)
+                self.gpt.chain_of_thoughts(queries[idx:], dset_name)
 
     def eval_all(self):
-        for exp_name in ['chain-of-thoughts', 'similar-queries-fs', 'similar-queries-zs']:
-            for model_name in ['flan-ul2', 'llama']:
-                self.do_evaluation(exp_name, model_name)
+        for model_name in [self.flan.name, self.llama.name, self.gpt.name]:
+            self.do_evaluation(self.exp_name, model_name)
 
-    def eval(self, exp_names, model_names):
-        for exp_name in exp_names:
-            for model_name in model_names:
-                self.do_evaluation(exp_name, model_name)
+    def eval(self, model_names):
+        for model_name in model_names:
+            print(f"Evaluating model {model_name} ...")
+            self.do_evaluation(self.exp_name, model_name)
 
     def do_evaluation(self, exp_name, model_name):
         eval_dfs = []
-        for dset_name in self.dsets:
+        for dset_name in tqdm(self.dsets):
             expanded_queries = Layout.get_as_dict(exp_name, model_name, dset_name)
             pt_dataset = pt.get_dataset(f"irds:ir-benchmarks/{dset_name}")
 
@@ -87,16 +58,23 @@ class Layout:
             index = Layout.pyterrier_index_from_tira(dset_name)
 
             bm25 = pt.BatchRetrieve(index, wmodel="BM25")
+            bm25_rm3 = bm25 >> pt.rewrite.RM3(index) >> bm25
+            bm25_kl = bm25 >> pt.rewrite.KLQueryExpansion(index) >> bm25
             bm25_with_expansion = pt_expand_query >> bm25
 
-            df = pt.Experiment([bm25, bm25_with_expansion], pt_dataset.get_topics('query'), pt_dataset.get_qrels(),
-                               ['ndcg_cut.10', 'recall_1000'], names=['BM25', f'BM25+{self.name}'], verbose=True)
+            df = pt.Experiment([bm25, bm25_rm3, bm25_kl, bm25_with_expansion], pt_dataset.get_topics('query'), pt_dataset.get_qrels(),
+                               ['ndcg_cut.10', 'recall_1000'], names=['BM25', 'BM25+RM3', 'BM25+KL', f'BM25+{self.name}'], verbose=True)
             df['dataset'] = dset_name
             df['model'] = model_name
             eval_dfs.append(df)
 
         eval_df = pd.concat(eval_dfs)
-        eval_df.to_json(f'chain-of-thoughts/generated/eval-{model_name}.jsonl', lines=True, orient='records')
+
+        path = f'generated/{exp_name}/evaluation'
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        eval_df.to_json(f'{path}/eval-{model_name}.jsonl', lines=True, orient='records')
 
     @staticmethod
     def concat(query, reps, llm_output):

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec4f05f9-ca96-413d-90a4-ec50d0273874" name="Changes" comment="Merge of restructuring and parallama">
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/evaluation/eval-flan-ul2.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/evaluation/eval-llama.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/antique-test-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/argsme-touche-2020-task-1-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/argsme-touche-2021-task-1-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb09-en-trec-web-2009-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb09-en-trec-web-2010-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb09-en-trec-web-2011-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb09-en-trec-web-2012-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb12-touche-2020-task-2-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb12-touche-2021-task-2-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb12-trec-misinfo-2019-20240214-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb12-trec-web-2013-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/clueweb12-trec-web-2014-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/cord19-fulltext-trec-covid-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/cranfield-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/disks45-nocr-trec-robust-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/disks45-nocr-trec7-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/disks45-nocr-trec8-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov-trec-web-2002-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov-trec-web-2003-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov-trec-web-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov2-trec-tb-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov2-trec-tb-2005-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/gov2-trec-tb-2006-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/longeval-heldout-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/longeval-long-september-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/longeval-short-july-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/longeval-train-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/medline-2004-trec-genomics-2004-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/medline-2004-trec-genomics-2005-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/medline-2017-trec-pm-2017-20230211-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/medline-2017-trec-pm-2018-20230211-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/msmarco-passage-trec-dl-2020-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/nfcorpus-test-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/trec-tip-of-the-tongue-dev-20230607-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/vaswani-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/flan-ul2/wapo-v2-trec-core-2018-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/gpt/longeval-long-september-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/gpt/longeval-short-july-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/gpt/msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/gpt/msmarco-passage-trec-dl-2020-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/antique-test-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/argsme-touche-2020-task-1-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/argsme-touche-2021-task-1-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb09-en-trec-web-2009-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb09-en-trec-web-2010-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb09-en-trec-web-2011-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb09-en-trec-web-2012-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb12-touche-2020-task-2-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb12-touche-2021-task-2-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb12-trec-misinfo-2019-20240214-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb12-trec-web-2013-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/clueweb12-trec-web-2014-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/cord19-fulltext-trec-covid-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/cranfield-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/disks45-nocr-trec-robust-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/disks45-nocr-trec7-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/disks45-nocr-trec8-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov-trec-web-2002-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov-trec-web-2003-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov-trec-web-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov2-trec-tb-2004-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov2-trec-tb-2005-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/gov2-trec-tb-2006-20230209-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/longeval-heldout-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/longeval-long-september-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/longeval-short-july-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/longeval-train-20230513-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/medline-2004-trec-genomics-2004-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/medline-2004-trec-genomics-2005-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/medline-2017-trec-pm-2017-20230211-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/medline-2017-trec-pm-2018-20230211-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/msmarco-passage-trec-dl-2019-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/msmarco-passage-trec-dl-2020-judged-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/nfcorpus-test-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/trec-tip-of-the-tongue-dev-20230607-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/vaswani-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/generated/chain-of-thoughts/llama/wapo-v2-trec-core-2018-20230107-training.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/chatgpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/experiments/experiments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/experiments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/experiments/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/flan_ul2.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/flan_ul2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/llama.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/llama.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/parallama.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/utility.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/utility.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;kingature&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="1ef1c3fa-82aa-4a5b-9a99-6c5f021eaa5e" />
+        <option name="url" value="git@github.com:kingature/IR-Hackathon.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2dEtRwJrg2qtIU50lS3DZK4uZv5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.chatgpt.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging parallama",
+    "last_opened_file_path": "/home/ature/Programming/Python/IR-Hackathon/src/generated/chain-of-thoughts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/generated/chain-of-thoughts" />
+      <recent name="$PROJECT_DIR$/chain-of-thoughts/generated/llama" />
+      <recent name="$PROJECT_DIR$/chain-of-thoughts/generated/flan-ul2" />
+      <recent name="$PROJECT_DIR$/chain-of-thoughts/generated" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/generated/chain-of-thoughts/evaluation" />
+      <recent name="$PROJECT_DIR$/src/util" />
+      <recent name="$PROJECT_DIR$/src/experiments" />
+      <recent name="$PROJECT_DIR$/src/models" />
+      <recent name="$PROJECT_DIR$/chain-of-thoughts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main (1)">
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="IR-Hackathon" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="IR-Hackathon" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/chain-of-thoughts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/chain-of-thoughts/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d68999036c7f-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.14475.56" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec4f05f9-ca96-413d-90a4-ec50d0273874" name="Changes" comment="" />
+      <created>1709585060791</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709585060791</updated>
+      <workItem from="1709585062659" duration="4551000" />
+      <workItem from="1709626757277" duration="32987000" />
+      <workItem from="1709662290887" duration="312000" />
+      <workItem from="1709669987377" duration="7301000" />
+      <workItem from="1709715006076" duration="36665000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <option name="closed" value="true" />
+      <created>1709628845636</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709628845636</updated>
+    </task>
+    <task id="LOCAL-00002" summary="restructuring">
+      <option name="closed" value="true" />
+      <created>1709631979697</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1709631979697</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Evaluation for msmarco on llama and flan-ul2">
+      <option name="closed" value="true" />
+      <created>1709654966781</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1709654966781</updated>
+    </task>
+    <task id="LOCAL-00004" summary="integrated llama into the code base">
+      <option name="closed" value="true" />
+      <created>1709657536828</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709657536828</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Removed old data files">
+      <option name="closed" value="true" />
+      <created>1709657672964</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1709657672964</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Restructuring">
+      <option name="closed" value="true" />
+      <created>1709677251862</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1709677251862</updated>
+    </task>
+    <task id="LOCAL-00007" summary="get_by_priority(tranche_id) lets you now choose a set of datasets by priority. 0 = high, 1 = mid, 2 = low">
+      <option name="closed" value="true" />
+      <created>1709716205417</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1709716205417</updated>
+    </task>
+    <task id="LOCAL-00008" summary="evaluation for chain-of-thoughts">
+      <option name="closed" value="true" />
+      <created>1709731428050</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1709731428050</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Added support for gpt">
+      <option name="closed" value="true" />
+      <created>1709740147818</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1709740147818</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Caching is now supported">
+      <option name="closed" value="true" />
+      <created>1709750770662</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1709750770662</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Implemented baselines">
+      <option name="closed" value="true" />
+      <created>1709752668978</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1709752668978</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="restructuring" />
+    <MESSAGE value="Evaluation for msmarco on llama and flan-ul2" />
+    <MESSAGE value="integrated llama into the code base" />
+    <MESSAGE value="Removed old data files" />
+    <MESSAGE value="Restructuring" />
+    <MESSAGE value="get_by_priority(tranche_id) lets you now choose a set of datasets by priority. 0 = high, 1 = mid, 2 = low" />
+    <MESSAGE value="evaluation for chain-of-thoughts" />
+    <MESSAGE value="Added support for gpt" />
+    <MESSAGE value="Caching is now supported" />
+    <MESSAGE value="Implemented baselines" />
+    <MESSAGE value="Merge of restructuring and parallama" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge of restructuring and parallama" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IR_Hackathon$main.coverage" NAME="main Coverage Results" MODIFIED="1709723521595" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/chain-of-thoughts" />
+    <SUITE FILE_PATH="coverage/IR_Hackathon$chatgpt.coverage" NAME="chatgpt Coverage Results" MODIFIED="1709735825794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/models" />
+    <SUITE FILE_PATH="coverage/IR_Hackathon$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1709751918637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+  </component>
+</project>

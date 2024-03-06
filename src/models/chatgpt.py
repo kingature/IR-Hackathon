@@ -1,25 +1,28 @@
-from transformers import T5ForConditionalGeneration, AutoTokenizer
-import torch
-
-from layout import Layout
+from openai import OpenAI
+from src.models.layout import Layout
 from src.util.utility import save_query
+from tqdm import tqdm
 
 
-class FlanUL2Wrapper(Layout):
-    def __init__(self, min_len, max_len, temperature, name):
+class ChatGPTWrapper(Layout):
+
+    def __init__(self, max_len, temperature, name):
+        # TODO Remove API KEY
         super().__init__(name)
-        self.min_len = min_len
+        self.client = OpenAI(api_key='...')
         self.max_len = max_len
         self.temperature = temperature
 
-        self.model = T5ForConditionalGeneration.from_pretrained("google/flan-ul2", device_map="auto", load_in_8bit=True)
-        self.tokenizer = AutoTokenizer.from_pretrained("google/flan-ul2")
-
     def process_query(self, prompt):
-        inputs = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).input_ids.to("cuda")
-        output = self.model.generate(inputs, do_sample=True, min_length=self.min_len, max_length=self.max_len,
-                                     temperature=self.temperature)
-        return self.tokenizer.batch_decode(output, skip_special_tokens=True)
+        response = self.client.chat.completions.create(
+            model='gpt-3.5-turbo',
+            messages=[
+                {"role": "system", "content": f"{prompt}"},
+            ],
+            max_tokens=self.max_len,
+            temperature=self.temperature
+        )
+        return response.choices[0].message.content
 
     def chain_of_thoughts(self, queries, dset_name):
         def add_context(q):
@@ -29,7 +32,7 @@ class FlanUL2Wrapper(Layout):
                     f''
                     f'Give the rationale before answering.')
 
-        for query in queries:
+        for query in tqdm(queries):
             prompt = add_context(query.default_text())
             response = self.process_query(prompt)
             save_query(exp_name="chain-of-thoughts", model_name=self.name, dset_name=dset_name, query=query, response=response)
@@ -50,7 +53,7 @@ class FlanUL2Wrapper(Layout):
                     f'Original Query: {q}'
                     f'Similar Query:')
 
-        for query in queries:
+        for query in tqdm(queries):
             prompt = add_context(query.default_text())
             response = self.process_query(prompt)
             save_query(exp_name="similar-queries-fs", model_name=self.name, dset_name=dset_name, query=query, response=response)
@@ -61,7 +64,7 @@ class FlanUL2Wrapper(Layout):
                     f''
                     f'Query: {q}')
 
-        for query in queries:
+        for query in tqdm(queries):
             prompt = add_context(query.default_text())
             response = self.process_query(prompt)
             save_query(exp_name="similar-queries-zs", model_name=self.name, dset_name=dset_name, query=query, response=response)
