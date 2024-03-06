@@ -58,10 +58,12 @@ class Layout:
             index = Layout.pyterrier_index_from_tira(dset_name)
 
             bm25 = pt.BatchRetrieve(index, wmodel="BM25")
+            bm25_rm3 = bm25 >> pt.rewrite.RM3(index) >> bm25
+            bm25_kl = bm25 >> pt.rewrite.KLQueryExpansion(index) >> bm25
             bm25_with_expansion = pt_expand_query >> bm25
 
-            df = pt.Experiment([bm25, bm25_with_expansion], pt_dataset.get_topics('query'), pt_dataset.get_qrels(),
-                               ['ndcg_cut.10', 'recall_1000'], names=['BM25', f'BM25+{self.name}'], verbose=True)
+            df = pt.Experiment([bm25, bm25_rm3, bm25_kl, bm25_with_expansion], pt_dataset.get_topics('query'), pt_dataset.get_qrels(),
+                               ['ndcg_cut.10', 'recall_1000'], names=['BM25', 'BM25+RM3', 'BM25+KL', f'BM25+{self.name}'], verbose=True)
             df['dataset'] = dset_name
             df['model'] = model_name
             eval_dfs.append(df)
