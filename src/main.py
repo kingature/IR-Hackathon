@@ -9,7 +9,7 @@ import sys
 
 
 if __name__ == '__main__':
-    dset_list = get_by_priority(1) + get_by_priority(2)
+    dset_list = get_all_datasets()
 
     if len(dset_list) == 0:
         dset_list = get_all_datasets()
@@ -26,18 +26,18 @@ if __name__ == '__main__':
     else:
         print("Running main.py unparallelized (start from ./parallel.sh if there are more GPUs to use)")
 
-    flan_model = FlanUL2Wrapper(min_len=10, max_len=200, temperature=0.5, name="flan-ul2")
-    llama_model = Llama2Wrapper(min_len=10, max_len=200, temperature=1.1, name="llama", modelpath="/beegfs/ws/1/s9037008-ir-hackaton-queries/models/llama2-7b-chat-pytorch")
+    flan_model = None   # FlanUL2Wrapper(min_len=10, max_len=200, temperature=0.5, name="flan-ul2")
+    llama_model = None  # Llama2Wrapper(min_len=10, max_len=200, temperature=1.1, name="llama", modelpath="/beegfs/ws/1/s9037008-ir-hackaton-queries/models/llama2-7b-chat-pytorch")
     chatgpt_model = None    # ChatGPTWrapper(max_len=200, temperature=0.5, name="gpt")
 
     chain_of_thoughts = ChainOfThoughts(long_name="chain-of-thoughts", short_name="CoT", flan=flan_model, llama=llama_model, gpt=chatgpt_model, dsets=dset_list)
-    chain_of_thoughts.run()
-    # chain_of_thoughts.eval([chatgpt_model.name])
+    # chain_of_thoughts.run()
+    chain_of_thoughts.eval_dataset(["flan-ul2", "llama", "gpt"])
 
     similar_queries_fs = SimilarQueriesFS(long_name="similar-queries-fs", short_name="Q2E/FS", flan=flan_model, llama=llama_model, gpt=chatgpt_model, dsets=dset_list)
-    similar_queries_fs.run()
-    # similar_queries_fs.eval([flan_model.name, llama_model.name, chatgpt_model.name])
+    # similar_queries_fs.run()
+    similar_queries_fs.eval_dataset(["flan-ul2", "llama", "gpt"])
 
     similar_queries_zs = SimilarQueriesZS(long_name="similar-queries-zs", short_name="Q2E/ZS", flan=flan_model, llama=llama_model, gpt=chatgpt_model, dsets=dset_list)
-    similar_queries_zs.run()
-    # similar_queries_zs.eval([flan_model.name, llama_model.name, chatgpt_model.name])
+    # similar_queries_zs.run()
+    similar_queries_zs.eval_dataset(["flan-ul2", "llama", "gpt"])
