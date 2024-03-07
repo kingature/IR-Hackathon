@@ -9,19 +9,22 @@ import sys
 
 
 if __name__ == '__main__':
-    dset_list = get_by_priority(0)
+    dset_list = get_by_priority(1) + get_by_priority(2)
 
     if len(dset_list) == 0:
         dset_list = get_all_datasets()
 
-    batchnum = int(sys.argv[1])
-    ngpus = int(sys.argv[2])
+    if len(sys.argv) == 3:
+        batchnum = int(sys.argv[1])
+        ngpus = int(sys.argv[2])
 
-    dset_list = split_list(dset_list, ngpus)[batchnum-1]
-    if len(dset_list) == 0:
-        print(f"Process {batchnum}/{ngpus} has nothing to do, exiting...")
-        exit()
-    print(f"Process {batchnum}/{ngpus} has datasets {dset_list}")
+        dset_list = split_list(dset_list, ngpus)[batchnum-1]
+        if len(dset_list) == 0:
+            print(f"Process {batchnum}/{ngpus} has nothing to do, exiting...")
+            exit()
+        print(f"Process {batchnum}/{ngpus} has datasets {dset_list}")
+    else:
+        print("Running main.py unparallelized (start from ./parallel.sh if there are more GPUs to use)")
 
     flan_model = FlanUL2Wrapper(min_len=10, max_len=200, temperature=0.5, name="flan-ul2")
     llama_model = Llama2Wrapper(min_len=10, max_len=200, temperature=1.1, name="llama", modelpath="/beegfs/ws/1/s9037008-ir-hackaton-queries/models/llama2-7b-chat-pytorch")
