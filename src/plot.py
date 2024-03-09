@@ -30,7 +30,8 @@ def load_evals():
 
     data = {}
     for ds in eval_dss:
-        dshat = ds[5:-6]
+#        dshat = ds[5:-6]
+        dshat = ds[5:-24]
         data[dshat] = {"baselines": {}}
         for exp in ["chain-of-thoughts", "similar-queries-fs", "similar-queries-zs"]:
             data[dshat][exp] = {}
@@ -114,24 +115,155 @@ def barchart_all(data):
     zs_gpt_recs = [data[d]["similar-queries-zs"]["gpt"]["Recall@1000"] for d in data.keys()]
     zs_gpt_precs = [data[d]["similar-queries-zs"]["gpt"]["NDCG@10"] for d in data.keys()]
 
+    matplotlib.rcParams.update({'font.size': 13})
+    plt.figure(figsize=(8, 6))
+    barwidth = 0.9
     # recall
-    plt.bar(1, mean(bm25_recs), yerr=stdev(bm25_recs), color=orange)
-    plt.bar(2, mean(bm25rm3_recs), yerr=stdev(bm25rm3_recs), color=violet)
-    plt.bar(3, mean(bm25kl_recs), yerr=stdev(bm25kl_recs), color=darkorange)
-    plt.bar(5, mean(cot_flan_recs), yerr=stdev(cot_flan_recs), color=turquoise)
-    plt.bar(6, mean(cot_llama_recs), yerr=stdev(cot_llama_recs), color=purple)
-    plt.bar(7, mean(cot_gpt_recs), yerr=stdev(cot_gpt_recs), color=navyblue)
-    plt.bar(9, mean(fs_flan_recs), yerr=stdev(fs_flan_recs), color=turquoise)
-    plt.bar(10, mean(fs_llama_recs), yerr=stdev(fs_llama_recs), color=purple)
-    plt.bar(11, mean(fs_gpt_recs), yerr=stdev(fs_gpt_recs), color=navyblue)
-    plt.bar(13, mean(zs_flan_recs), yerr=stdev(zs_flan_recs), color=turquoise)
-    plt.bar(14, mean(zs_llama_recs), yerr=stdev(zs_llama_recs), color=purple)
-    plt.bar(15, mean(zs_gpt_recs), yerr=stdev(zs_gpt_recs), color=navyblue)
-    plt.show()
-    plt.savefig()
+    plt.bar(1, mean(bm25_recs), barwidth, yerr=stdev(bm25_recs), capsize=5, color=orange, label="BM25")
+    plt.bar(2, mean(bm25rm3_recs), barwidth, yerr=stdev(bm25rm3_recs), capsize=5, color=violet, label="BM25+RM3")
+    plt.bar(3, mean(bm25kl_recs), barwidth, yerr=stdev(bm25kl_recs), capsize=5, color=darkorange, label="BM25+KL")
+    plt.bar(5, mean(cot_flan_recs), barwidth, yerr=stdev(cot_flan_recs), capsize=5, color=turquoise, label="flan")
+    plt.bar(6, mean(cot_llama_recs), barwidth, yerr=stdev(cot_llama_recs), capsize=5, color=purple, label="llama")
+    plt.bar(7, mean(cot_gpt_recs), barwidth, yerr=stdev(cot_gpt_recs), capsize=5, color=navyblue, label="gpt")
+    plt.bar(9, mean(fs_flan_recs), barwidth, yerr=stdev(fs_flan_recs), capsize=5, color=turquoise)
+    plt.bar(10, mean(fs_llama_recs), barwidth, yerr=stdev(fs_llama_recs), capsize=5, color=purple)
+    plt.bar(11, mean(fs_gpt_recs), barwidth, yerr=stdev(fs_gpt_recs), capsize=5, color=navyblue)
+    plt.bar(13, mean(zs_flan_recs), barwidth, yerr=stdev(zs_flan_recs), capsize=5, color=turquoise)
+    plt.bar(14, mean(zs_llama_recs), barwidth, yerr=stdev(zs_llama_recs), capsize=5, color=purple)
+    plt.bar(15, mean(zs_gpt_recs), barwidth, yerr=stdev(zs_gpt_recs), capsize=5, color=navyblue)
+    plt.hlines([mean(x) for x in [bm25_recs, bm25rm3_recs, bm25kl_recs]], [x-barwidth/2 for x in [1,2,3]], 15+barwidth/2, colors=[orange, violet, darkorange], linestyles="dashed")
+
+    plt.ylim(0.2, 0.9)
+    plt.xticks([2,6,10,14], ["Baseline", "CoT/ZS", "Q2E/FS", "Q2E/ZS"], rotation=0)
+    plt.xlabel("Experiment")
+    plt.ylabel("Recall@1000")
+    plt.title("Gemittelte Ergebnisse über alle Datensätze\n", fontweight="bold")
+    plt.legend(loc="lower right", framealpha=0.95)
+#    plt.show()
+    plt.savefig("all-recall.png", dpi=500)
     plt.close()
 
     #ndcg
+    plt.figure(figsize=(8, 6))
+    plt.bar(1, mean(bm25_precs), barwidth, yerr=stdev(bm25_precs), capsize=5, color=orange, label="BM25")
+    plt.bar(2, mean(bm25rm3_precs), barwidth, yerr=stdev(bm25rm3_precs), capsize=5, color=violet, label="BM25+RM3")
+    plt.bar(3, mean(bm25kl_precs), barwidth, yerr=stdev(bm25kl_precs), capsize=5, color=darkorange, label="BM25+KL")
+    plt.bar(5, mean(cot_flan_precs), barwidth, yerr=stdev(cot_flan_precs), capsize=5, color=turquoise, label="flan")
+    plt.bar(6, mean(cot_llama_precs), barwidth, yerr=stdev(cot_llama_precs), capsize=5, color=purple, label="llama")
+    plt.bar(7, mean(cot_gpt_precs), barwidth, yerr=stdev(cot_gpt_precs), capsize=5, color=navyblue, label="gpt")
+    plt.bar(9, mean(fs_flan_precs), barwidth, yerr=stdev(fs_flan_precs), capsize=5, color=turquoise)
+    plt.bar(10, mean(fs_llama_precs), barwidth, yerr=stdev(fs_llama_precs), capsize=5, color=purple)
+    plt.bar(11, mean(fs_gpt_precs), barwidth, yerr=stdev(fs_gpt_precs), capsize=5, color=navyblue)
+    plt.bar(13, mean(zs_flan_precs), barwidth, yerr=stdev(zs_flan_precs), capsize=5, color=turquoise)
+    plt.bar(14, mean(zs_llama_precs), barwidth, yerr=stdev(zs_llama_precs), capsize=5, color=purple)
+    plt.bar(15, mean(zs_gpt_precs), barwidth, yerr=stdev(zs_gpt_precs), capsize=5, color=navyblue)
+    plt.hlines([mean(x) for x in [bm25_precs, bm25rm3_precs, bm25kl_precs]], [x-barwidth/2 for x in [1,2,3]], 15+barwidth/2, colors=[orange, violet, darkorange], linestyles="dashed")
+
+#    plt.grid(True, axis="y")
+    plt.ylim(0, 0.55)
+    plt.xticks([2,6,10,14], ["Baseline", "CoT/ZS", "Q2E/FS", "Q2E/ZS"], rotation=0)
+    plt.xlabel("Experiment")
+    plt.ylabel("NDCG@10")
+    plt.title("Gemittelte Ergebnisse über alle Datensätze\n", fontweight="bold")
+    plt.legend(loc="lower right", framealpha=0.95)
+#    plt.show()
+    plt.savefig("all-ndcg.png", dpi=500)
+    plt.close()
+
+def qualplot(data):
+    ds_names = data.keys()
+    n_abv_recs = []
+    n_abv_ndcgs = []
+    for d in data:
+        best_baseline_rec = max([data[d]["baselines"][m]["Recall@1000"] for m in ["BM25", "BM25+RM3", "BM25+KL"]])
+        best_baseline_ndcg = max([data[d]["baselines"][m]["NDCG@10"] for m in ["BM25", "BM25+RM3", "BM25+KL"]])
+        n_abv_rec = 0
+        n_abv_ndcg = 0
+        for exp in list(data[d].keys())[1:]:
+            for m in data[d][exp].keys():
+                if data[d][exp][m]["Recall@1000"] > best_baseline_rec:
+                    n_abv_rec += 1
+                if data[d][exp][m]["NDCG@10"] > best_baseline_ndcg:
+                    n_abv_ndcg += 1
+        n_abv_recs.append(n_abv_rec)
+        n_abv_ndcgs.append(n_abv_ndcg)
+
+#    for num, name in sorted(zip(n_abv_recs, ds_names), reverse=True):
+#        print(num, name)
+
+    # recall
+    quant = sorted(zip(n_abv_recs, ds_names), reverse=True)
+    xs = [q[1] for q in quant]
+    ys = [q[0] for q in quant]
+    matplotlib.rcParams.update({'font.size': 13})
+    plt.figure(figsize=(10,6))
+    plt.subplots_adjust(left=0.4)
+    plt.barh(xs, ys, color=orange)
+    plt.xlabel("Anzahl QE > Baseline")
+    plt.ylabel("Datensatz")
+    plt.title("Qualitative Auswertung für Recall@1000\n", fontweight="bold")
+#    plt.show()
+    plt.savefig("qualitative-recall.png", dpi=500)
+    plt.close()
+
+    # ndcg
+    quant = sorted(zip(n_abv_ndcgs, ds_names), reverse=True)
+    xs = [q[1] for q in quant]
+    ys = [q[0] for q in quant]
+    plt.figure(figsize=(10,6))
+    plt.subplots_adjust(left=0.4)
+    plt.barh(xs, ys, color=darkorange)
+    plt.xlabel("Anzahl QE > Baseline")
+    plt.ylabel("Datensatz")
+    plt.title("Qualitative Auswertung für NDCG@10\n", fontweight="bold")
+#    plt.show()
+    plt.savefig("qualitative-ndcg.png", dpi=500)
+    plt.close()
+
+def plot_methods_qual(data):
+    ds_names = data.keys()
+    n_abv_recs = {"chain-of-thoughts": {}, "similar-queries-fs": {}, "similar-queries-zs": {}}
+    n_abv_ndcgs = {"chain-of-thoughts": {}, "similar-queries-fs": {}, "similar-queries-zs": {}}
+    for d in data:
+        best_baseline_rec = max([data[d]["baselines"][m]["Recall@1000"] for m in ["BM25", "BM25+RM3", "BM25+KL"]])
+        best_baseline_ndcg = max([data[d]["baselines"][m]["NDCG@10"] for m in ["BM25", "BM25+RM3", "BM25+KL"]])
+        for exp in list(data[d].keys())[1:]:
+            for m in data[d][exp].keys():
+                # initialization
+                if m not in n_abv_recs[exp].keys():
+                    n_abv_recs[exp][m] = 0
+                if m not in n_abv_ndcgs[exp].keys():
+                    n_abv_ndcgs[exp][m] = 0
+
+                # calculation (rather, counting)
+                if data[d][exp][m]["Recall@1000"] > best_baseline_rec:
+                    n_abv_recs[exp][m] += 1
+                if data[d][exp][m]["NDCG@10"] > best_baseline_ndcg:
+                    n_abv_ndcgs[exp][m] += 1
+
+#    print(n_abv_recs)
+#    print(n_abv_ndcgs)
+
+    barwidth = 0.9
+    matplotlib.rcParams.update({'font.size': 13})
+#    plt.bar(6, 10, 2, color=turquoise, alpha=0.3)
+    # flan
+    xs_flan = [1,5,9]
+    plt.bar(xs_flan, [n_abv_recs[e]["flan-ul2"] for e in n_abv_recs.keys()], barwidth, color=orange, label="flan")
+    # llama
+    xs_llama = [2,6,10]
+    plt.bar(xs_llama, [n_abv_recs[e]["llama"] for e in n_abv_recs.keys()], barwidth, color=violet, label="llama")
+    # gpt
+    xs_gpt = [3,7,11]
+    plt.bar(xs_gpt, [n_abv_recs[e]["gpt"] for e in n_abv_recs.keys()], barwidth, color=darkorange, label="gpt")
+    plt.legend(loc="lower right")
+    plt.title("Qualitative Recall@1000 Performance nach\nMethode/Model", fontweight="bold")
+    plt.xticks([2,6,10], ["CoT/ZS", "Q2E/FS", "Q2E/ZS"], rotation=0)
+    plt.xlabel("Experiment")
+    plt.ylabel("Anzahl QE > Baseline")
+#    plt.show()
+    plt.savefig("miregal.png", dpi=500)
+    plt.close()
 
 def main():
     data = load_evals()
@@ -143,7 +275,9 @@ def main():
 #        for s in scores:
 #            barchart(data, d, s)
 
-    barchart_all(data)
+#    barchart_all(data)
+#    qualplot(data)
+    plot_methods_qual(data)
 
 if __name__ == "__main__":
     main()
